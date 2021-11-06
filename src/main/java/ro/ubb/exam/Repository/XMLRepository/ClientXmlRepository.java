@@ -19,7 +19,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.Optional;
 
-public class ClientXmlRepository extends InMemoryRepository <Long, Client> {
+public class ClientXmlRepository extends InMemoryRepository<Long, Client> {
     private DocumentBuilderFactory documentBuilderFactory;
     private DocumentBuilder documentBuilder;
     private Document document;
@@ -29,7 +29,7 @@ public class ClientXmlRepository extends InMemoryRepository <Long, Client> {
 
     public ClientXmlRepository(Validator<Client> validator, String filePath) {
         super(validator);
-        this.filePath=filePath;
+        this.filePath = filePath;
         try {
             documentBuilderFactory = DocumentBuilderFactory.newInstance();
             documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -38,7 +38,7 @@ public class ClientXmlRepository extends InMemoryRepository <Long, Client> {
             transformer = transformerFactory.newTransformer();
             loadData();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -46,9 +46,9 @@ public class ClientXmlRepository extends InMemoryRepository <Long, Client> {
     private void loadData() {
         Element root = document.getDocumentElement();       //citire lista Client,
         NodeList clientNodeList = root.getChildNodes();
-        for (int i=0; i<clientNodeList.getLength(); i++){
+        for (int i = 0; i < clientNodeList.getLength(); i++) {
             Node clientNode = clientNodeList.item(i);
-            if (!(clientNode instanceof Element)){ // verificare consistenta fisier xml
+            if (!(clientNode instanceof Element)) { // verificare consistenta fisier xml
                 continue;
             }
             Element clientElement = (Element) clientNode;
@@ -83,8 +83,8 @@ public class ClientXmlRepository extends InMemoryRepository <Long, Client> {
             Element root = document.getDocumentElement();
             Node node = createNodeFromClient(entity);
             root.appendChild(node);
-            transformer.transform(new DOMSource(document),new StreamResult(new File(filePath)));
-        }catch (Exception e){
+            transformer.transform(new DOMSource(document), new StreamResult(new File(filePath)));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -105,12 +105,12 @@ public class ClientXmlRepository extends InMemoryRepository <Long, Client> {
 
     @Override
     public Optional<Client> delete(Long aLong) {
-        Optional<Client> clientOptional =  super.delete(aLong);
+        Optional<Client> clientOptional = super.delete(aLong);
         NodeList nodeList = document.getElementsByTagName("id");
         removeClientFromDom(aLong, nodeList);
         try {
-            transformer.transform(new DOMSource(document),new StreamResult(new File(filePath)));
-        }catch (Exception e){
+            transformer.transform(new DOMSource(document), new StreamResult(new File(filePath)));
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -120,13 +120,13 @@ public class ClientXmlRepository extends InMemoryRepository <Long, Client> {
 
 
     private void removeClientFromDom(Long aLong, NodeList nodeList) {
-        for (int i=0; i< nodeList.getLength(); i++){
+        for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
-            if (!(node instanceof Element)){
+            if (!(node instanceof Element)) {
                 continue;
             }
             Long id = Long.parseLong(node.getTextContent());
-            if (aLong.equals(id)){
+            if (aLong.equals(id)) {
                 node.getParentNode().getParentNode().removeChild(node.getParentNode());
             }
         }
@@ -138,7 +138,7 @@ public class ClientXmlRepository extends InMemoryRepository <Long, Client> {
         NodeList nodeList = document.getElementsByTagName("id");
         removeClientFromDom(entity.getId(), nodeList);
         saveToXml(entity);
-        return  clientOptional;
+        return clientOptional;
     }
 }
 

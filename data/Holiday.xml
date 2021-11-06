@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<holiday>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><holiday>
     <holiday>
         <id>10</id>
         <name>Marin Maria</name>
@@ -24,4 +23,4 @@
         <destination>Barcelona</destination>
         <price>1200</price>
     </holiday>
-</holiday>
+<holiday><id>60</id><name>Mircea</name><destination>Antalya</destination><price>50</price></holiday></holiday>

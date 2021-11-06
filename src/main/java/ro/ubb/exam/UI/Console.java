@@ -96,7 +96,6 @@ public class Console {
         try {
             System.out.print("Enter id: ");
             Long id = scanner.nextLong();
-            scanner.nextLine();
             System.out.print("Enter client name: ");
             scanner.nextLine();
             String clientName = scanner.nextLine();
